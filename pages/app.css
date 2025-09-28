@@ -1,0 +1,218 @@
+/* Add to existing CSS */
+.performance-badge {
+    background: linear-gradient(135deg, #228B22, #32CD32);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 2px;
+}
+
+.warning-badge {
+    background: linear-gradient(135deg, #B22222, #DC143C);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 2px;
+}
+
+.info-badge {
+    background: linear-gradient(135deg, #205295, #2C74B3);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 2px;
+}
+
+/* Hover effects for better interactivity */
+.metric-highlight:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(10, 38, 71, 0.2);
+}
+
+.chart-container:hover {
+    box-shadow: 0 4px 12px rgba(10, 38, 71, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+
+@media (max-width: 768px) {
+    .main-header {
+        font-size: 2rem !important;
+        }
+    .metric-highlight h3 {
+        font-size: 1.2rem !important;
+        }
+    .chart-container {
+        padding: 10px !important;
+        }
+}
+
+    /* ===== SIDEBAR STYLING ===== */
+    
+    /* Sidebar Background */
+    .css-1d391kg, .css-1lcbmhc {
+        background-color: var(--navy-blue) !important;
+    }
+    
+    /* Sidebar Text Color */
+    .css-1d391kg p, .css-1lcbmhc p, 
+    .css-1d391kg label, .css-1lcbmhc label,
+    .css-1d391kg h1, .css-1lcbmhc h1,
+    .css-1d391kg h2, .css-1lcbmhc h2,
+    .css-1d391kg h3, .css-1lcbmhc h3 {
+        color: white !important;
+    }
+    
+    /* Filter Section Header */
+    .filter-section {
+        background: linear-gradient(135deg, var(--light-blue), var(--sky-blue));
+        padding: 15px;
+        border-radius: 10px;
+        color: white;
+        margin-bottom: 20px;
+    }
+    
+    /* Dropdown/Select Box Styling */
+    .stSelectbox > div > div,
+    .stMultiselect > div > div {
+        background-color: var(--light-gray) !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* Dropdown Options */
+    .stSelectbox > div > div:hover,
+    .stMultiselect > div > div:hover {
+        border-color: var(--sky-blue) !important;
+        box-shadow: 0 0 0 1px var(--sky-blue) !important;
+    }
+    
+    /* Dropdown Menu */
+    .stSelectbox [data-baseweb="popover"],
+    .stMultiselect [data-baseweb="popover"] {
+        background-color: white !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Dropdown Menu Items */
+    .stSelectbox [data-baseweb="menu"],
+    .stMultiselect [data-baseweb="menu"] {
+        background-color: white !important;
+    }
+    
+    /* Selected Items in Multiselect */
+    .stMultiselect [data-baseweb="tag"] {
+        background-color: var(--light-blue) !important;
+        color: white !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Button Styling */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--light-blue), var(--sky-blue)) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 600 !important;
+    }
+    
+    .stButton > button:hover {
+        background: linear-gradient(135deg, var(--sky-blue), var(--light-blue)) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(10, 38, 71, 0.3) !important;
+    }
+    
+    /* Slider Styling */
+    .stSlider > div > div {
+        background-color: var(--light-blue) !important;
+    }
+    
+    .stSlider > div > div > div {
+        background-color: var(--sky-blue) !important;
+    }
+    
+    /* Checkbox Styling */
+    .stCheckbox > label {
+        color: white !important;
+    }
+    
+    .stCheckbox [data-baseweb="checkbox"] {
+        background-color: var(--light-gray) !important;
+        border-color: var(--light-blue) !important;
+    }
+    
+    .stCheckbox [data-baseweb="checkbox"]:checked {
+        background-color: var(--light-blue) !important;
+        border-color: var(--light-blue) !important;
+    }
+    
+    /* Radio Button Styling */
+    .stRadio > label {
+        color: white !important;
+    }
+    
+    .stRadio [data-baseweb="radio"] {
+        background-color: var(--light-gray) !important;
+        border-color: var(--light-blue) !important;
+    }
+    
+    .stRadio [data-baseweb="radio"]:checked {
+        background-color: var(--light-blue) !important;
+        border-color: var(--light-blue) !important;
+    }
+    
+    /* Number Input Styling */
+    .stNumberInput > div > div > input {
+        background-color: var(--light-gray) !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* Text Input Styling */
+    .stTextInput > div > div > input {
+        background-color: var(--light-gray) !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* Date Input Styling */
+    .stDateInput > div > div > input {
+        background-color: var(--light-gray) !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* Time Input Styling */
+    .stTimeInput > div > div > input {
+        background-color: var(--light-gray) !important;
+        border: 2px solid var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* File Uploader Styling */
+    .stFileUploader > div > div {
+        background-color: var(--light-gray) !important;
+        border: 2px dashed var(--light-blue) !important;
+        border-radius: 8px !important;
+        color: var(--navy-blue) !important;
+    }
+    
+    /* Progress Bar Styling */
+    .stProgress > div > div > div {
+        background-color: var(--light-blue) !important;
+    }
+    
