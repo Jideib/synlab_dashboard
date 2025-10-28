@@ -141,45 +141,49 @@ segment_percentages = (filtered_data['Segment'].value_counts(normalize=True) * 1
 
 with col1:
     if 'Champions' in segment_percentages:
-        st.metric("Champions", f"{segment_percentages['Champions']}%")
+        champions = st.metric(f"{segment_percentages['Champions']}%")
     else:
         st.metric("Champions", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3><p>🏆 Champions</p></h3>   
+        <h3>{champions}</h3>
+        <p>🏆 Champions</p>   
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     if 'At Risk' in segment_percentages:
-        st.metric("At Risk", f"{segment_percentages['At Risk']}%")
+        at_risk= st.metric(f"{segment_percentages['At Risk']}%")
     else:
         st.metric("At Risk", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3><p>⚠️ At Risk</p></h3>
+        <h3>{at_risk}</h3>
+        <p>⚠️ At Risk</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     if 'New Users' in segment_percentages:
-        st.metric("New Users", f"{segment_percentages['New Users']}%")
+        new_users = st.metric(f"{segment_percentages['New Users']}%")
     else:
         st.metric("New Users", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3><p>🆕 New Users</p></h3>   
+        <h3>{new_users}</h3>
+        <p>🆕 New Users</p>   
     </div>
     """, unsafe_allow_html=True)
 
 with col4:
     if 'Prospects' in segment_percentages:
-        st.metric("Prospects", f"{segment_percentages['Prospects']}%")
+        prospects = st.metric(f"{segment_percentages['Prospects']}%")
     else:
         st.metric("Prospects", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3><p>🎯 Prospects</p></h3>
+        <h3{prospects}</h3>
+        <p>🎯 Prospects</p>
     </div>
     """, unsafe_allow_html=True)
 
