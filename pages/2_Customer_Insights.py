@@ -137,41 +137,49 @@ st.subheader("🎯 Customer Segments Overview")
 
 col1, col2, col3, col4 = st.columns(4)
 
-segment_counts = filtered_data['Segment'].value_counts()
+segment_percentages = (filtered_data['Segment'].value_counts(normalize=True) * 100).round(1)
 
 with col1:
-    champions = segment_counts.get('Champions', 0)
+    if 'Champions' in segment_percentages:
+        st.metric("Champions", f"{segment_percentages['Champions']}%")
+    else:
+        st.metric("Champions", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{champions}</h3>
-        <p>🏆 Champions</p>
+        <h3><p>🏆 Champions</p></h3>   
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-    at_risk = segment_counts.get('At Risk', 0)
+    if 'At Risk' in segment_percentages:
+        st.metric("At Risk", f"{segment_percentages['At Risk']}%")
+    else:
+        st.metric("At Risk", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{at_risk}</h3>
-        <p>⚠️ At Risk</p>
+        <h3><p>⚠️ At Risk</p></h3>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
-    new_users = segment_counts.get('New Users', 0)
+    if 'New Users' in segment_percentages:
+        st.metric("New Users", f"{segment_percentages['New Users']}%")
+    else:
+        st.metric("New Users", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{new_users}</h3>
-        <p>🆕 New Users</p>
+        <h3><p>🆕 New Users</p></h3>   
     </div>
     """, unsafe_allow_html=True)
 
 with col4:
-    prospects = segment_counts.get('Prospects', 0)
+    if 'Prospects' in segment_percentages:
+        st.metric("Prospects", f"{segment_percentages['Prospects']}%")
+    else:
+        st.metric("Prospects", "0%")
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{prospects}</h3>
-        <p>🎯 Prospects</p>
+        <h3><p>🎯 Prospects</p></h3>
     </div>
     """, unsafe_allow_html=True)
 
@@ -233,7 +241,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    fig4 = px.pie(values=segment_counts.values, names=segment_counts.index, 
+    fig4 = px.pie(values=segment_percentages.values, names=segment_percentages.index, 
                  title="🎪 Customer Segments Distribution",
                  color_discrete_sequence=['#0A2647', '#144272', '#205295', '#2C74B3', '#F8F9FA'])
     fig4.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
@@ -306,6 +314,85 @@ with col3:
                      xaxis_title="Count", yaxis_title="")
     st.plotly_chart(fig3, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
+# Geographic Distribution (if available)
+if 'Latitude' in filtered_data.columns and 'Longitude' in filtered_data.columns:
+    st.subheader("🗺️ Geographic Distribution")
+    
+    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
+    # Simple scatter map with theme colors
+    fig7 = px.scatter_mapbox(filtered_data, 
+                           lat="Latitude", lon="Longitude",
+                           color="Segment",
+                           color_discrete_sequence=['#0A2647', '#144272', '#205295', '#2C74B3'],
+                           size_max=15,
+                           zoom=10,
+                           title="📍 Customer Distribution by Segment")
+    fig7.update_layout(mapbox_style="open-street-map")
+    st.plotly_chart(fig7, use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+else:
+    st.markdown("""
+    <div class="insight-card">
+        <h4>🗺️ Location Data</h4>
+        <p>Geographic coordinates not available in current dataset</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Key Insights
+st.subheader("💡 Customer Insights")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    # Top performing segment
+    best_segment = segment_stats['SYNLAB_Rating_1_5'].idxmax()
+    best_rating = segment_stats['SYNLAB_Rating_1_5'].max()
+    
+    st.markdown(f"""
+    <div class="insight-card">
+        <h4>🏆 Best Performing Segment</h4>
+        <p><strong>{best_segment}</strong> with average rating of <strong>{best_rating}/5</strong></p>
+        <p>Focus retention strategies on this group</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Gender insights
+    gender_rating = filtered_data.groupby('Gender')['SYNLAB_Rating_1_5'].mean()
+    highest_gender = gender_rating.idxmax()
+    
+    st.markdown(f"""
+    <div class="insight-card">
+        <h4>🚻 Gender Performance</h4>
+        <p><strong>{highest_gender}</strong> respondents give highest average ratings</p>
+        <p>Consider gender-specific messaging</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    # Age group insights
+    age_usage = filtered_data.groupby('Age_Group')['Used_SYNLAB'].mean() * 100
+    highest_usage_age = age_usage.idxmax()
+    
+    st.markdown(f"""
+    <div class="insight-card">
+        <h4>👥 Age Group Engagement</h4>
+        <p><strong>{highest_usage_age}</strong> has highest usage rate at <strong>{age_usage[highest_usage_age]:.1f}%</strong></p>
+        <p>Target acquisition in other age groups</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Occupation insights
+    occ_awareness = filtered_data.groupby('Occupation')['Heard_SYNLAB'].mean().sort_values(ascending=False).head(1)
+    top_occ = occ_awareness.index[0]
+    
+    st.markdown(f"""
+    <div class="insight-card">
+        <h4>💼 Occupation Awareness</h4>
+        <p><strong>{top_occ}</strong> shows highest brand awareness</p>
+        <p>Leverage for referral programs</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")

@@ -90,6 +90,23 @@ st.markdown("""
         margin: 10px 0;
     }
     
+    /* Summary Section */
+    .summary-section {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 25px;
+        border-radius: 10px;
+        border-left: 5px solid var(--navy-blue);
+        margin: 15px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .summary-header {
+        color: var(--navy-blue);
+        border-bottom: 2px solid var(--light-blue);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+    
     /* Footer */
     .footer {
         background-color: var(--navy-blue);
@@ -111,7 +128,6 @@ st.markdown("""
     <p>Comprehensive insights and performance metrics</p>
 </div>
 """, unsafe_allow_html=True)
-
 
 # Initialize session state for filters
 if 'age_filter' not in st.session_state:
@@ -241,6 +257,104 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# COMPREHENSIVE TEXT SUMMARY OF ALL PAGES
+st.markdown("---")
+st.markdown("<h2 class='summary-header'>📋 COMPREHENSIVE DASHBOARD SUMMARY</h2>", unsafe_allow_html=True)
+
+# Executive Summary Section
+st.markdown("""
+<div class="summary-section">
+    <h3>📊 EXECUTIVE OVERVIEW</h3>
+    <p><strong>Dataset Overview:</strong> 500 survey responses with comprehensive demographic and brand perception data</p>
+    <p><strong>Key Metrics:</strong> Brand awareness, customer satisfaction, service quality ratings, competitive positioning</p>
+    <p><strong>Primary Focus:</strong> SYNLAB brand performance across different customer segments and against key competitors</p>
+    <p><strong>Data Collection:</strong> August 2024 survey covering various age groups, occupations, and familiarity levels</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Customer Insights Summary
+st.markdown("""
+<div class="summary-section">
+    <h3>👥 CUSTOMER INSIGHTS</h3>
+    <p><strong>Demographic Coverage:</strong> Comprehensive analysis across Age Groups, Occupations, Gender, and Geographic locations</p>
+    <p><strong>Segmentation Analysis:</strong> Customer behavior patterns segmented by demographic factors and familiarity levels</p>
+    <p><strong>Key Findings:</strong> Variations in brand perception and service expectations across different customer segments</p>
+    <p><strong>Behavioral Patterns:</strong> Service usage frequency, preference drivers, and satisfaction drivers by segment</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Competitive Intelligence Summary
+st.markdown("""
+<div class="summary-section">
+    <h3>⚔️ COMPETITIVE INTELLIGENCE</h3>
+    <p><strong>Competitor Set:</strong> Analysis against 5 key competitor brands in the diagnostic services market</p>
+    <p><strong>Market Positioning:</strong> SYNLAB's relative position in terms of brand awareness, preference, and perceived quality</p>
+    <p><strong>Competitive Advantages:</strong> Identification of SYNLAB's strengths and weaknesses compared to competitors</p>
+    <p><strong>Market Share Analysis:</strong> Customer preference distribution and brand switching behavior patterns</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Strategic Analytics Summary
+st.markdown("""
+<div class="summary-section">
+    <h3>🚀 STRATEGIC ANALYTICS</h3>
+    <p><strong>Service Gap Analysis:</strong> Identification of areas where SYNLAB meets or falls short of customer expectations</p>
+    <p><strong>Improvement Opportunities:</strong> Prioritized list of service enhancements based on customer feedback</p>
+    <p><strong>Strategic Recommendations:</strong> Data-driven insights for marketing, service delivery, and customer experience improvements</p>
+    <p><strong>ROI Opportunities:</strong> Areas with highest potential for customer satisfaction and business growth impact</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Advanced Models Summary
+st.markdown("""
+<div class="summary-section">
+    <h3>🔧 ADVANCED ANALYTICAL MODELS</h3>
+    <p><strong>Predictive Analytics:</strong> Customer behavior forecasting and churn prediction models</p>
+    <p><strong>Segmentation Models:</strong> Advanced clustering for customer persona development</p>
+    <p><strong>Sentiment Analysis:</strong> Text analytics on open-ended responses for qualitative insights</p>
+    <p><strong>Machine Learning Insights:</strong> Pattern recognition in customer preferences and service expectations</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Technical Implementation Summary
+st.markdown("""
+<div class="summary-section">
+    <h3>🛠️ TECHNICAL IMPLEMENTATION</h3>
+    <p><strong>Platform:</strong> Streamlit-based interactive dashboard with real-time filtering capabilities</p>
+    <p><strong>Data Processing:</strong> Automated data cleaning, transformation, and augmentation pipelines</p>
+    <p><strong>Visualization:</strong> Interactive charts, graphs, and metrics with drill-down capabilities</p>
+    <p><strong>Global Filters:</strong> Consistent filtering across all analytical components for unified insights</p>
+    <p><strong>Responsive Design:</strong> Mobile-friendly interface with optimized user experience</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Key Performance Indicators
+st.markdown("""
+<div class="summary-section">
+    <h3>📈 KEY PERFORMANCE INDICATORS</h3>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+        <div>
+            <h4>Brand Metrics</h4>
+            <ul>
+                <li>Brand Awareness Score</li>
+                <li>Brand Preference Index</li>
+                <li>Net Promoter Score (NPS)</li>
+                <li>Customer Satisfaction (CSAT)</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Service Metrics</h4>
+            <ul>
+                <li>Service Quality Ratings</li>
+                <li>Turnaround Time Satisfaction</li>
+                <li>Price Perception Score</li>
+                <li>Recommendation Likelihood</li>
+            </ul>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 # Navigation guide
 st.subheader("📖 Navigation Guide")
 
@@ -278,11 +392,11 @@ with col2:
     
     """, unsafe_allow_html=True)
 
-
 # Footer
 st.markdown("---")
 st.markdown("""
 <div class="footer">
     <p>Built by Ibraheem Alawode using Streamlit | For SYNLAB Nigeria Marketing Team</p>
     <p style="font-size: 0.8rem; opacity: 0.8;">
+</div>
 """, unsafe_allow_html=True)
