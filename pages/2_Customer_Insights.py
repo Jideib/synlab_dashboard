@@ -107,6 +107,7 @@ display_logo("assets/synlab_logo.jpg", width=200)
 @st.cache_data
 def load_data():
     return pd.read_csv("data/SYNLAB_Surveydata_AUGMENTED_500.csv")
+
 filtered_data = load_data()
 
 # Page Header
@@ -116,8 +117,6 @@ st.markdown("""
     <p>Deep dive into customer demographics, segments, and behaviors</p>
 </div>
 """, unsafe_allow_html=True)
-
-
 
 # Create customer segments
 def create_segments(data):
@@ -140,49 +139,37 @@ col1, col2, col3, col4 = st.columns(4)
 segment_percentages = (filtered_data['Segment'].value_counts(normalize=True) * 100).round(1)
 
 with col1:
-    if 'Champions' in segment_percentages:
-        champions = st.metric(f"{segment_percentages['Champions']}%")
-    else:
-        st.metric("Champions", "0%")
+    champions_pct = segment_percentages.get('Champions', 0)
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{champions}</h3>
+        <h3>{champions_pct}%</h3>
         <p>🏆 Champions</p>   
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-    if 'At Risk' in segment_percentages:
-        at_risk= st.metric(f"{segment_percentages['At Risk']}%")
-    else:
-        st.metric("At Risk", "0%")
+    at_risk_pct = segment_percentages.get('At Risk', 0)
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{at_risk}</h3>
+        <h3>{at_risk_pct}%</h3>
         <p>⚠️ At Risk</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
-    if 'New Users' in segment_percentages:
-        new_users = st.metric(f"{segment_percentages['New Users']}%")
-    else:
-        st.metric("New Users", "0%")
+    new_users_pct = segment_percentages.get('New Users', 0)
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3>{new_users}</h3>
+        <h3>{new_users_pct}%</h3>
         <p>🆕 New Users</p>   
     </div>
     """, unsafe_allow_html=True)
 
 with col4:
-    if 'Prospects' in segment_percentages:
-        prospects = st.metric(f"{segment_percentages['Prospects']}%")
-    else:
-        st.metric("Prospects", "0%")
+    prospects_pct = segment_percentages.get('Prospects', 0)
     st.markdown(f"""
     <div class="metric-highlight">
-        <h3{prospects}</h3>
+        <h3>{prospects_pct}%</h3>
         <p>🎯 Prospects</p>
     </div>
     """, unsafe_allow_html=True)
@@ -262,7 +249,7 @@ with col2:
         'Familiarity_Score': 'mean'
     }).round(2)
     
-   # Style the dataframe
+    # Style the dataframe
     st.markdown("**📈 Segment Characteristics**")
     
     # Apply color coding to the dataframe
@@ -389,11 +376,12 @@ with col2:
     # Occupation insights
     occ_awareness = filtered_data.groupby('Occupation')['Heard_SYNLAB'].mean().sort_values(ascending=False).head(1)
     top_occ = occ_awareness.index[0]
+    top_occ_pct = occ_awareness.iloc[0] * 100
     
     st.markdown(f"""
     <div class="insight-card">
         <h4>💼 Occupation Awareness</h4>
-        <p><strong>{top_occ}</strong> shows highest brand awareness</p>
+        <p><strong>{top_occ}</strong> shows highest brand awareness at <strong>{top_occ_pct:.1f}%</strong></p>
         <p>Leverage for referral programs</p>
     </div>
     """, unsafe_allow_html=True)
