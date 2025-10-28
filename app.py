@@ -268,7 +268,7 @@ st.markdown("""
     <p><strong>Dataset Overview:</strong> 500 survey responses with comprehensive demographic and brand perception data</p>
     <p><strong>Key Metrics:</strong> Brand awareness, customer satisfaction, service quality ratings, competitive positioning</p>
     <p><strong>Primary Focus:</strong> SYNLAB brand performance across different customer segments and against key competitors</p>
-    <p><strong>Data Collection:</strong> August 2024 survey covering various age groups, occupations, and familiarity levels</p>
+    <p><strong>Data Collection:</strong> August 2025 survey covering various age groups, occupations, and familiarity levels</p>
 </div>
 """, unsafe_allow_html=True)
 
