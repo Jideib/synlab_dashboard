@@ -157,7 +157,7 @@ st.subheader("🎯 Competitive Positioning")
 
 col1, col2 = st.columns(2)
 
-# Replace the existing scatter plot code with this:
+#Awareness vs Usage line  code with this:
 
 with col1:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
@@ -166,9 +166,7 @@ with col1:
     positioning_df = pd.DataFrame({
         'Lab': labs,
         'Awareness': awareness_rates,
-        'Usage': usage_rates,
-        'Threat': [calculate_threat_score(awareness_rates[i], usage_rates[i])
-                  for i in range(len(labs))]
+        'Usage': usage_rates
     })
 
     # Sort by Awareness for better line visualization
@@ -176,67 +174,149 @@ with col1:
 
     fig3 = go.Figure()
 
-    # Add Awareness line
-    fig3.add_trace(go.Scatter(
-        x=positioning_df['Lab'],
-        y=positioning_df['Awareness'],
-        mode='lines+markers',
-        name='Awareness Rate',
-        line=dict(color='#0A2647', width=3, dash='solid'),
-        marker=dict(size=10, color='#0A2647'),
-        yaxis='y'
-    ))
+    # Add grid lines for better readability
+    for y in [10, 20, 30, 40, 50]:
+        fig3.add_hline(y=y, line=dict(color="rgba(128, 128, 128, 0.2)", width=1, dash="dash"))
+    for x in [20, 30, 40, 50]:
+        fig3.add_vline(x=x, line=dict(color="rgba(128, 128, 128, 0.2)", width=1, dash="dash"))
 
-    # Add Usage line
+    # Add Usage line (Primary metric from screenshot)
     fig3.add_trace(go.Scatter(
-        x=positioning_df['Lab'],
+        x=positioning_df['Awareness'],
         y=positioning_df['Usage'],
-        mode='lines+markers',
-        name='Usage Rate',
-        line=dict(color='#2C74B3', width=3, dash='dash'),
-        marker=dict(size=10, color='#2C74B3'),
-        yaxis='y'
+        mode='lines+markers+text',
+        text=positioning_df['Lab'],
+        textposition="top center",
+        name='Usage Rate (%)',
+        line=dict(color='#0A2647', width=3),
+        marker=dict(size=12, color='#0A2647', symbol='circle'),
+        hovertemplate='<b>%{text}</b><br>Awareness: %{x:.1f}%<br>Usage: %{y:.1f}%<extra></extra>'
     ))
 
-    # Add Threat Score as bars
-    fig3.add_trace(go.Bar(
-        x=positioning_df['Lab'],
-        y=positioning_df['Threat'],
-        name='Threat Score',
-        marker_color='rgba(139, 0, 0, 0.6)',
-        yaxis='y2',
-        opacity=0.6
-    ))
+    # Highlight specific competitors as shown in screenshot
+    # Add special markers for key competitors
+    competitors_to_highlight = {
+        'Clinix': {'color': '#8B0000', 'symbol': 'square'},
+        'Mecure': {'color': '#205295', 'symbol': 'diamond'},
+        'Clina Lancet': {'color': '#2C74B3', 'symbol': 'star'},
+        'Afriglobal': {'color': '#32CD32', 'symbol': 'triangle-up'}
+    }
 
-    # Update layout for dual y-axes
+    for lab, style in competitors_to_highlight.items():
+        if lab in positioning_df['Lab'].values:
+            lab_data = positioning_df[positioning_df['Lab'] == lab].iloc[0]
+            fig3.add_trace(go.Scatter(
+                x=[lab_data['Awareness']],
+                y=[lab_data['Usage']],
+                mode='markers',
+                marker=dict(
+                    size=20,
+                    color=style['color'],
+                    symbol=style['symbol'],
+                    line=dict(width=2, color='white')
+                ),
+                name=lab,
+                showlegend=False,
+                hovertemplate=f'<b>{lab}</b><br>Awareness: %{{x:.1f}}%<br>Usage: %{{y:.1f}}%<extra></extra>'
+            ))
+
+    # Add SYNLAB with special styling
+    synlab_data = positioning_df[positioning_df['Lab'] == 'SYNLAB']
+    if not synlab_data.empty:
+        synlab_data = synlab_data.iloc[0]
+        fig3.add_trace(go.Scatter(
+            x=[synlab_data['Awareness']],
+            y=[synlab_data['Usage']],
+            mode='markers',
+            marker=dict(
+                size=25,
+                color='#FFD700',  # Gold color for market leader
+                symbol='star',
+                line=dict(width=3, color='#FF4500')
+            ),
+            name='SYNLAB (Market Leader)',
+            hovertemplate='<b>SYNLAB (Market Leader)</b><br>Awareness: %{x:.1f}%<br>Usage: %{y:.1f}%<extra></extra>'
+        ))
+
+    # Update layout to match screenshot style
     fig3.update_layout(
-        title="🎯 Awareness vs Usage Positioning (with Threat Scores)",
-        xaxis=dict(title="Laboratory"),
+        title="🎯 Awareness vs Usage Positioning",
+        xaxis=dict(
+            title="Awareness Rate (%)",
+            range=[15, 55],
+            tickmode='linear',
+            tick0=20,
+            dtick=10,
+            gridcolor='rgba(128, 128, 128, 0.1)'
+        ),
         yaxis=dict(
-            title="Awareness/Usage Rate (%)",
-            titlefont=dict(color="#0A2647"),
-            tickfont=dict(color="#0A2647"),
-            range=[0, 60]
+            title="Usage Rate (%)",
+            range=[15, 35],
+            tickmode='linear',
+            tick0=15,
+            dtick=5,
+            gridcolor='rgba(128, 128, 128, 0.1)'
         ),
-        yaxis2=dict(
-            title="Threat Score",
-            titlefont=dict(color="#8B0000"),
-            tickfont=dict(color="#8B0000"),
-            anchor="x",
-            overlaying="y",
-            side="right",
-            range=[0, 15]
-        ),
-        plot_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='white',
         paper_bgcolor='rgba(0,0,0,0)',
+        showlegend=True,
         legend=dict(
             orientation="h",
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            bgcolor='rgba(255, 255, 255, 0.8)'
         ),
-        barmode='group'
+        hovermode='closest',
+        margin=dict(t=50, l=50, r=50, b=50)
+    )
+
+    # Add quadrant lines at the median
+    median_awareness = positioning_df['Awareness'].median()
+    median_usage = positioning_df['Usage'].median()
+
+    fig3.add_shape(
+        type="line",
+        x0=median_awareness, y0=15,
+        x1=median_awareness, y1=35,
+        line=dict(color="rgba(0, 0, 0, 0.3)", width=1, dash="dot")
+    )
+
+    fig3.add_shape(
+        type="line",
+        x0=15, y0=median_usage,
+        x1=55, y1=median_usage,
+        line=dict(color="rgba(0, 0, 0, 0.3)", width=1, dash="dot")
+    )
+
+    # Add quadrant labels
+    fig3.add_annotation(
+        x=25, y=32,
+        text="High Awareness, High Usage",
+        showarrow=False,
+        font=dict(size=10, color="green")
+    )
+
+    fig3.add_annotation(
+        x=45, y=18,
+        text="High Awareness, Low Usage",
+        showarrow=False,
+        font=dict(size=10, color="orange")
+    )
+
+    fig3.add_annotation(
+        x=25, y=18,
+        text="Low Awareness, Low Usage",
+        showarrow=False,
+        font=dict(size=10, color="red")
+    )
+
+    fig3.add_annotation(
+        x=45, y=32,
+        text="Low Awareness, High Usage",
+        showarrow=False,
+        font=dict(size=10, color="blue")
     )
 
     st.plotly_chart(fig3, use_container_width=True)
