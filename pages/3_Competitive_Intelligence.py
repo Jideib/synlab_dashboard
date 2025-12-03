@@ -157,25 +157,88 @@ st.subheader("🎯 Competitive Positioning")
 
 col1, col2 = st.columns(2)
 
+# Replace the existing scatter plot code with this:
+
 with col1:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    # Awareness vs Usage Scatter
+
+    # Create line chart for Awareness vs Usage
     positioning_df = pd.DataFrame({
         'Lab': labs,
         'Awareness': awareness_rates,
         'Usage': usage_rates,
-        'Size': [500, 400, 300, 200, 100]  # Relative size for visualization
+        'Threat': [calculate_threat_score(awareness_rates[i], usage_rates[i])
+                  for i in range(len(labs))]
     })
-    
-    fig3 = px.scatter(positioning_df, x='Awareness', y='Usage', text='Lab',
-                     size='Size', size_max=50,
-                     title="🎪 Awareness vs Usage Positioning",
-                     color='Lab',
-                     color_discrete_sequence=['#0A2647', '#144272', '#205295', '#2C74B3', '#8B0000'])
-    
-    fig3.update_traces(textposition='top center')
-    fig3.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                     xaxis_title="Awareness Rate (%)", yaxis_title="Usage Rate (%)")
+
+    # Sort by Awareness for better line visualization
+    positioning_df = positioning_df.sort_values('Awareness')
+
+    fig3 = go.Figure()
+
+    # Add Awareness line
+    fig3.add_trace(go.Scatter(
+        x=positioning_df['Lab'],
+        y=positioning_df['Awareness'],
+        mode='lines+markers',
+        name='Awareness Rate',
+        line=dict(color='#0A2647', width=3, dash='solid'),
+        marker=dict(size=10, color='#0A2647'),
+        yaxis='y'
+    ))
+
+    # Add Usage line
+    fig3.add_trace(go.Scatter(
+        x=positioning_df['Lab'],
+        y=positioning_df['Usage'],
+        mode='lines+markers',
+        name='Usage Rate',
+        line=dict(color='#2C74B3', width=3, dash='dash'),
+        marker=dict(size=10, color='#2C74B3'),
+        yaxis='y'
+    ))
+
+    # Add Threat Score as bars
+    fig3.add_trace(go.Bar(
+        x=positioning_df['Lab'],
+        y=positioning_df['Threat'],
+        name='Threat Score',
+        marker_color='rgba(139, 0, 0, 0.6)',
+        yaxis='y2',
+        opacity=0.6
+    ))
+
+    # Update layout for dual y-axes
+    fig3.update_layout(
+        title="🎯 Awareness vs Usage Positioning (with Threat Scores)",
+        xaxis=dict(title="Laboratory"),
+        yaxis=dict(
+            title="Awareness/Usage Rate (%)",
+            titlefont=dict(color="#0A2647"),
+            tickfont=dict(color="#0A2647"),
+            range=[0, 60]
+        ),
+        yaxis2=dict(
+            title="Threat Score",
+            titlefont=dict(color="#8B0000"),
+            tickfont=dict(color="#8B0000"),
+            anchor="x",
+            overlaying="y",
+            side="right",
+            range=[0, 15]
+        ),
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        barmode='group'
+    )
+
     st.plotly_chart(fig3, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -211,16 +274,25 @@ for lab in labs[1:]:  # Exclude SYNLAB
     heard_col = f'Heard_{lab.replace(" ", "_")}'
     used_col = f'Used_{lab.replace(" ", "_")}'
     
-    # Simple threat score: awareness * usage
-    threat_score = awareness_rates[labs.index(lab)] * usage_rates[labs.index(lab)] / 100
-    threat_scores[lab] = threat_score
+    # Threat Score
+    awareness = awareness_rates[labs.index(lab)]
+    usage = usage_rates[labs.index(lab)]
+
+    # FORMULA: 50% Usage + 50% Awareness
+    raw_threat = (0.5 * usage) + (0.5 * awareness)
+
+    # Convert to 0-1 scale
+    normalized = raw_threat / 100
+
+    # Scale to 3-10 range
+    threat_score = 3 + (normalized * 7)
 
 # Display threat assessment
 col1, col2, col3, col4 = st.columns(4)
 
 for i, (lab, score) in enumerate(list(threat_scores.items())[:4]):
     with [col1, col2, col3, col4][i]:
-        threat_level = "High" if score > 15 else "Medium" if score > 8 else "Low"
+        threat_level = "High" if score > 9 else "Medium" if score > 5 else "Low"
         color = "#B22222" if threat_level == "High" else "#FF8C00" if threat_level == "Medium" else "#32CD32"
         
         st.markdown(f"""
