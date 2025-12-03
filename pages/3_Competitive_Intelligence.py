@@ -293,14 +293,14 @@ with col1:
     # Add quadrant labels
     fig3.add_annotation(
         x=25, y=32,
-        text="High Awareness, low Usage",
+        text="low Awareness, High Usage",
         showarrow=False,
         font=dict(size=10, color="orange")
     )
 
     fig3.add_annotation(
         x=45, y=18,
-        text="High Awareness, High Usage",
+        text="High Awareness, low Usage",
         showarrow=False,
         font=dict(size=10, color="green")
     )
@@ -314,7 +314,7 @@ with col1:
 
     fig3.add_annotation(
         x=45, y=32,
-        text="Low Awareness, High Usage",
+        text="High Awareness, High Usage",
         showarrow=False,
         font=dict(size=10, color="blue")
     )
@@ -366,8 +366,7 @@ for lab in labs[1:]:  # Exclude SYNLAB
 
     # Scale to 3-10 range
     threat_score = 3 + (normalized * 7)
-    threat_score[lab] = threat_score
-
+    threat_scores[lab] = round(threat_score, 1)
 # Display threat assessment
 col1, col2, col3, col4 = st.columns(4)
 
